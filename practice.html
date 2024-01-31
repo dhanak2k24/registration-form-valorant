@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valorant Tournament Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-image: url("https://cdn.vox-cdn.com/thumbor/iaRO8ZRmYP7vNgG5yPiBME1G1Wg=/0x0:3011x1447/1200x675/filters:focal(1123x329:1603x809)/cdn.vox-cdn.com/uploads/chorus_image/image/66954486/VALORANT_Jett_Red_crop.0.jpg");
+        }
+        header {
+            text-align: center; 
+            color: rgb(255, 255, 255);
+        }
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #555;
+        }
+    </style>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>Valorant Tournament Registration</h1>
+    </header>
+
+    <form action="submit_registration.php" method="post" name="submit-to-google-sheet">
+        <label for="teamName">Team Name:</label>
+        <input type="text" id="teamName" name="teamName" required>
+
+        <label for="captainName">Captain's Name:</label>
+        <input type="text" id="captainName" name="captainName" required>
+
+        <label for="captainValorantID">Captain's Valorant ID:</label>
+        <input type="text" id="captainValorantID" name="captainValorantID" required>
+
+        <label for="teamMembers">Team Members (Min 5, Max 6):</label>
+        <ol>
+            <!-- Input fields for team members -->
+            <li>
+                <label for="member1ValorantID">Member 1 Valorant ID:</label>
+                <input type="text" id="member1ValorantID" name="member1ValorantID" required>
+            </li>
+            <li>
+                <label for="member1ValorantID">Member 2 Valorant ID:</label>
+                <input type="text" id="member1ValorantID" name="member2ValorantID" required>
+            </li>
+            <li>
+                <label for="member1ValorantID">Member 3 Valorant ID:</label>
+                <input type="text" id="member1ValorantID" name="member3ValorantID" required>
+            </li>
+            <li>
+                <label for="member1ValorantID">Member 4 Valorant ID:</label>
+                <input type="text" id="member1ValorantID" name="member4ValorantID" required>
+            </li>
+            <li>
+                <label for="member1ValorantID">Member 5 Valorant ID(substitute):</label>
+                <input type="text" id="member1ValorantID" name="member5ValorantID" >
+            </li>
+            <!-- Add more member fields as needed -->
+        </ol>
+        <label for="payment">Registration fees xx</label>
+        <div id="qrcode"></div>
+
+  <script>
+    // Replace 'YourData' with the actual data you want in the QR code
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+      text: "YourData",
+      width: 128,
+      height: 128
+    });
+  </script>
+    <label for="image">Upload a screenshot of payment:</label>
+    <input type="file" id="image" name="image" accept="image/*" required>
+     <br>
+        <button type="submit">Register</button><br>
+        <span id="success"> </span><br>
+        <label>wait till successful registered appears</label>
+    </form>
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzC-w-bE12rPk-nxBvKwBFjiI8XasonFCED2iW5iVY6ubcfonFS9wfDNAhT_9CNqDQIMw/exec'
+        const form = document.forms['submit-to-google-sheet']
+        const success = document.getElementById('success')
+        form.addEventListener('submit', e => {
+          e.preventDefault()
+          fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => {
+                success.innerHTML="successfully registered";
+            })
+            .catch(error => console.error('Error!', error.message))
+        })
+      </script>
+</body>
+</html>
